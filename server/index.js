@@ -28,6 +28,8 @@ app.use(
 app.use("/api/user", require("./api/routes/user.routes"));
 // post
 app.use("/api/post", require("./api/routes/post.routes"));
+// profiles
+app.use('/api/profile',require('./api/routes/profile.routes'))
 
 // listen
 server.listen(PORT, async () => {

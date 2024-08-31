@@ -231,7 +231,7 @@ const Home = () => {
                     {/* author */}
                     <div className="flex items-center gap-x-1">
                       {/* profile */}
-                      <div className="w-[26px] aspect-square rounded-full overflow-hidden">
+                      <div className="w-[24px] bg-green-600 text-white flex items-center justify-center aspect-square rounded-full overflow-hidden">
                         <UserProfile />
                       </div>
                       {/* username */}
