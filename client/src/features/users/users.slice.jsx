@@ -57,6 +57,16 @@ export const logout = createAsyncThunk('user/logout',async () => {
     return err.response.data;
   }
 })
+
+// auth checker
+export const authChecker = createAsyncThunk('user/authChecker', async () => {
+  try{
+    const response = await axios.get('/api/user/auth-checker')
+    return response.data
+  }catch(err){
+    return err.response.data
+  }
+})
 // users slice
 const usersSlice = createSlice({
   name: "user",
@@ -143,6 +153,15 @@ const usersSlice = createSlice({
       // rejected
       .addCase(logout.rejected, state => {
         state.loggingOut = false
+      })
+      // auth checker
+      // fullfilled
+      .addCase(authChecker.fulfilled, (state,action)=>{
+        console.log(action.payload?.error)
+        if(action.payload?.error === "unauthorized"){
+          state.user = null 
+          localStorage.removeItem('user')
+        }
       })
   },
 });

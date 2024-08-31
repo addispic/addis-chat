@@ -24,7 +24,7 @@ import PagesNotFound from "./pages/PagesNotFound";
 
 // slices
 // user
-import { getAllUsers, addNewUser } from "./features/users/users.slice";
+import { getAllUsers, addNewUser, authChecker } from "./features/users/users.slice";
 // posts
 import {getAllPosts,addNewPostEvent, deletePostEvent} from './features/posts/posts.slice'
 
@@ -67,6 +67,10 @@ const App = () => {
     })
   },[])
 
+  // auth checker
+  useEffect(()=>{
+    dispatch(authChecker())
+  },[])
   
   return (
     <div className="w-screen h-screen overflow-x-hidden">

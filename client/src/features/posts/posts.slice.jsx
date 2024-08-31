@@ -66,7 +66,6 @@ const postsSlice = createSlice({
       // pending
       .addCase(getAllPosts.pending, (state) => {
         state.isPostLoading = true;
-        console.log("PENDING-GET-POSTS");
       })
       // fulfilled
       .addCase(getAllPosts.fulfilled, (state, action) => {
@@ -123,6 +122,8 @@ export const { addNewPostEvent, deletePostEvent } = postsSlice.actions;
 // selectors
 // posts selector
 export const postsSelector = (state) => state.posts.posts;
+// is post loading
+export const isPostLoadingSelector = (state) => state.posts.isPostLoading;
 // is post uploading
 export const isNewPostUploadingSelector = (state) => state.posts.isNewPostUploading
 // is post deleting

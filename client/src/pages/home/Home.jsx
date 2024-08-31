@@ -39,7 +39,7 @@ import Username from "../user/user-sub-pages/Username";
 
 // slices
 // posts
-import { postsSelector, addNewPost,deletePost, isPostDeletingSelector , isNewPostUploadingSelector} from "../../features/posts/posts.slice";
+import { postsSelector, addNewPost,deletePost, isPostDeletingSelector , isNewPostUploadingSelector, isPostLoadingSelector} from "../../features/posts/posts.slice";
 // users
 import { userSelector } from "../../features/users/users.slice";
 
@@ -49,6 +49,8 @@ const Home = () => {
   const user = useSelector(userSelector);
   // posts
   const posts = useSelector(postsSelector);
+  // is post loading
+  const isPostLoading = useSelector(isPostLoadingSelector)
   // is new post uploading
   const isNewPostUploading =  useSelector(isNewPostUploadingSelector)
   // is  post deleting
@@ -120,7 +122,17 @@ const Home = () => {
           user ? "max-h-[88vh]" : "max-h-[93vh]"
         }`}
       >
-        {posts?.length > 0 ? (
+        {
+          isPostLoading && (
+            <div className="p-10">
+              <Loading mainText={'Post Loading...'} />
+              </div>
+          )
+        }
+        {
+          posts?.length === 0 && !isPostLoading && <div>No Posts Yet</div>
+        }
+        {posts?.length > 0 && !isPostLoading && (
           <>
             {posts.map((postItem) => {
               return (
@@ -266,9 +278,7 @@ const Home = () => {
               );
             })}
           </>
-        ) : (
-          <>No Posts Yet</>
-        )}
+        ) }
       </div>
       {user ? (
         <>
