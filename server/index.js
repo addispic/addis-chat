@@ -29,7 +29,10 @@ app.use("/api/user", require("./api/routes/user.routes"));
 // post
 app.use("/api/post", require("./api/routes/post.routes"));
 // profiles
-app.use('/api/profile',require('./api/routes/profile.routes'))
+app.use("/api/profile", require("./api/routes/profile.routes"));
+
+// public
+app.use("/public", express.static("public"));
 
 // listen
 server.listen(PORT, async () => {
