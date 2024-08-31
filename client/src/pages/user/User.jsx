@@ -23,7 +23,7 @@ const User = () => {
                 <NavLink to={'/'} className={'flex items-center gap-x-0.5 text-gray-100'}>
                   <IoChatbubblesSharp className="text-2xl text-gray-200"/>
                   <div className="flex items-center font-black">
-                    <span className="text-xl text-gray-200">addis</span>
+                    <span className="text-gray-200">addis</span>
                     <span>Chat</span>
                   </div>
                 </NavLink>
