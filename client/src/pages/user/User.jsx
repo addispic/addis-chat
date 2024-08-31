@@ -15,7 +15,7 @@ const User = () => {
       <div className="max-w-[950px] mx-auto px-[3%]">
         <div className="flex">
           {/* image */}
-          <div className="w-[0] h-0 md:h-auto overflow-hidden md:w-[50%] transition-all ease-in-out duration-150 bg-green-500 md:p-7">
+          <div className="w-[0] h-0 md:h-auto overflow-hidden md:w-[50%] transition-all ease-in-out duration-150 bg-green-600 md:p-7">
             {/* header */}
             <header className="flex items-center justify-between">
               {/* site-logo */}
@@ -43,20 +43,20 @@ const User = () => {
                         {/* phone */}
                         <div className="flex items-center gap-x-1.5 mb-3">
                             <div>
-                                <div className="w-[26px] aspect-square rounded-full flex items-center justify-center border border-green-500 text-green-500">
+                                <div className="w-[26px] aspect-square rounded-full flex items-center justify-center border border-green-600 text-green-600">
                                     <PiPhoneCallFill />
                                 </div>
                             </div>
-                            <span className="text-sm italic text-green-500">: +251923996736</span>
+                            <span className="text-sm italic text-green-600">: +251923996736</span>
                              </div>
                         {/* email */}
                         <div className="flex items-center gap-x-1.5">
                             <div>
-                                <div className="w-[26px] aspect-square rounded-full flex items-center justify-center border border-green-500 text-green-500">
+                                <div className="w-[26px] aspect-square rounded-full flex items-center justify-center border border-green-600 text-green-600">
                                     <MdEmail />
                                 </div>
                             </div>
-                            <span className="text-sm italic text-green-500">: addispic@gmail.com</span>
+                            <span className="text-sm italic text-green-600">: addispic@gmail.com</span>
                              </div>
                     </div>
                 </div>

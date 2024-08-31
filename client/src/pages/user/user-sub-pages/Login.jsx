@@ -10,6 +10,11 @@ import { PiEyeSlashThin } from "react-icons/pi";
 // show
 import { PiEyeThin } from "react-icons/pi";
 
+// components
+// timer
+// loading
+import Loading from "../../../components/timer/Loading";
+
 // slices
 // user slice
 import {login,userSelector,errorsSelector,isFormSubmittingSelector} from '../../../features/users/users.slice'
@@ -78,42 +83,44 @@ const Login = () => {
     }
   },[user,errors])
 
-  if(isFormSubmitting){
-    return <div>Loading ...</div>
-  }
   return (
     <div>
       {/* header */}
       <header className="flex items-center justify-between mb-6">
         {/* title */}
         <div>
-          <h1 className="text-xl text-green-500">Login</h1>
+          <h1 className="text-xl text-green-600">Login</h1>
         </div>
         {/* site-logo */}
         <div className="md:hidden">
           <NavLink
             to={"/"}
-            className={"flex items-center gap-x-0.5 text-green-400"}
+            className={"flex items-center gap-x-0.5 text-green-600"}
           >
-            <IoChatbubblesSharp className="text-lg text-green-400" />
+            <IoChatbubblesSharp className="text-lg text-green-600" />
             <div className="flex items-center font-black">
-              <span className="text-green-400">addis</span>
+              <span className="text-green-600">addis</span>
               <span>Chat</span>
             </div>
           </NavLink>
         </div>
       </header>
       {/* form */}
+      {
+        isFormSubmitting
+        ?
+        <Loading  mainText={'Logging...'}/>
+        :
       <div>
         {/* username */}
         <div className="mb-3">
           {/* input */}
           <div
             className={`p-2 border rounded-sm ${
-              username ? "border-green-500" : ""
+              username ? "border-green-600" : ""
             } ${usernameError ? "border-red-400" : ""} ${
               borderDecorator === "username"
-                ? "border-green-500 "
+                ? "border-green-600 "
                 : "border-gray-200"
             }`}
           >
@@ -145,10 +152,10 @@ const Login = () => {
           {/* input */}
           <div
             className={`p-2 border rounded-sm flex items-center gap-x-1.5 ${
-              password && !passwordError ? "border-green-500" : ""
+              password && !passwordError ? "border-green-600" : ""
             } ${passwordError ? "border-red-400" : ""} ${
               borderDecorator === "password"
-                ? "border-green-500 "
+                ? "border-green-600 "
                 : "border-gray-200 "
             }`}
           >
@@ -188,13 +195,13 @@ const Login = () => {
 
         {/* forget password link */}
         <div className="my-3 flex items-center justify-end">
-          <NavLink to={'/user/forget-password'} className={'text-xs text-green-500 italic font-semibold hover:underline'}>Forget Password</NavLink>
+          <NavLink to={'/user/forget-password'} className={'text-xs text-green-600 italic font-semibold hover:underline'}>Forget Password</NavLink>
         </div>
 
         {/* login button */}
         <div>
           <button
-            className="w-full flex items-center justify-center bg-green-500 text-white rounded-sm p-2 transition-colors ease-in-out duration-150 hover:bg-green-400"
+            className="w-full flex items-center justify-center bg-green-600 text-white rounded-sm p-2 transition-colors ease-in-out duration-150 hover:bg-green-600"
             onClick={() => {
               formSubmitHandler();
             }}
@@ -207,12 +214,13 @@ const Login = () => {
         <div className="mt-5">
           <NavLink
             to={"/user/register"}
-            className={"text-xs text-green-500 hover:underline italic"}
+            className={"text-xs text-green-600 hover:underline italic"}
           >
             <span>Don't have an account?</span>
           </NavLink>
         </div>
       </div>
+      }
     </div>
   );
 };

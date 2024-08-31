@@ -123,6 +123,8 @@ export const { addNewPostEvent, deletePostEvent } = postsSlice.actions;
 // selectors
 // posts selector
 export const postsSelector = (state) => state.posts.posts;
+// is post uploading
+export const isNewPostUploadingSelector = (state) => state.posts.isNewPostUploading
 // is post deleting
 export const isPostDeletingSelector = (state) => state.posts.isPostDeleting;
 

@@ -4,7 +4,7 @@ import {NavLink} from 'react-router-dom'
 
 // slices
 // user
-import {userSelector,logout} from '../features/users/users.slice'
+import {userSelector,logout, loggingOutSelector} from '../features/users/users.slice'
 
 // components
 // username
@@ -18,8 +18,10 @@ const Header = () => {
   // states from slices
   // user
   const user = useSelector(userSelector);
+  // logging out
+  const loggingOut = useSelector(loggingOutSelector)
   return (
-    <header className='h-[7vh] bg-green-500 text-white w-full'>
+    <header className='h-[7vh] bg-green-600 text-white w-full'>
       {/* container */}
       <div className='container-max-width flex items-center justify-between h-full'>
         {/* logo */}
@@ -46,9 +48,20 @@ const Header = () => {
               </div>
               {/* logout button */}
               <div>
-                <button className='px-3 py-0.5 rounded-sm bg-white text-green-500 text-sm transition-colors ease-in-out duration-150 hover:bg-gray-50' onClick={()=>{
-                  dispatch(logout());
-                }}>Logout</button>
+                {
+                  loggingOut
+                  ?
+                  <div className='w-[67.921px] flex items-center justify-center'>
+
+                  <div className='w-[24px] aspect-square rounded-full border-4 border-white border-r-transparent animate-spin'></div>
+                  </div>
+                  :
+                  <button id='bbb' className='px-3 py-0.5 rounded-sm bg-white text-green-500 text-sm transition-colors ease-in-out duration-150 hover:bg-gray-50' onClick={()=>{
+                    dispatch(logout());
+                    console.log(window.getComputedStyle(document.getElementById('bbb')).width)
+                  }}>Logout</button>
+
+                }
               </div>
             </div>
             :

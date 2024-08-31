@@ -1,0 +1,25 @@
+
+#green-li {
+    animation: grow 1.6s ease-in-out infinite;
+    animation-delay: -1.5s;
+}
+
+#yellow-li {
+    animation: grow 1.6s ease-in-out infinite;
+    animation-delay: -1s;
+}
+#red-li {
+    animation: grow 1.6s ease-in-out infinite;
+    animation-delay: -.5s;
+}
+
+@keyframes grow {
+    0%,
+    40%,
+    100% {
+        transform: scale(0.25);
+    }
+    20%{
+        transform: scale(1);
+    }
+}

@@ -14,6 +14,7 @@ const initialState = {
   users: null,
   errors: null,
   isFormSubmitting: false,
+  loggingOut: false,
 };
 
 // login
@@ -129,11 +130,11 @@ const usersSlice = createSlice({
       // logout
       // pending
       .addCase(logout.pending,state => {
-        state.isFormSubmitting = true
+        state.loggingOut = true
       })
       // fulfilled
       .addCase(logout.fulfilled,(state,action)=>{
-        state.isFormSubmitting = false
+        state.loggingOut = false
         if(action.payload?.message){
           state.user = null;
           localStorage.removeItem('user');
@@ -141,7 +142,7 @@ const usersSlice = createSlice({
       })
       // rejected
       .addCase(logout.rejected, state => {
-        state.isFormSubmitting = false
+        state.loggingOut = false
       })
   },
 });
@@ -150,7 +151,9 @@ const usersSlice = createSlice({
 export const {addNewUser} = usersSlice.actions
 
 // is form submitting
-export const isFormSubmittingSelector = (state) => state.user.user;
+export const isFormSubmittingSelector = (state) => state.user.isFormSubmitting;
+// logging out
+export const loggingOutSelector = (state) => state.user.loggingOut
 // error
 export const errorsSelector = (state) => state.user.errors;
 // user

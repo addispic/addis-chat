@@ -27,7 +27,11 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 // warning
 import { IoIosWarning } from "react-icons/io";
 
+
 // components
+// timer
+// loader
+import Loading from "../../components/timer/Loading";
 // user profile
 import UserProfile from "../user/user-sub-pages/UserProfile";
 // user name
@@ -35,7 +39,7 @@ import Username from "../user/user-sub-pages/Username";
 
 // slices
 // posts
-import { postsSelector, addNewPost,deletePost, isPostDeletingSelector } from "../../features/posts/posts.slice";
+import { postsSelector, addNewPost,deletePost, isPostDeletingSelector , isNewPostUploadingSelector} from "../../features/posts/posts.slice";
 // users
 import { userSelector } from "../../features/users/users.slice";
 
@@ -45,6 +49,8 @@ const Home = () => {
   const user = useSelector(userSelector);
   // posts
   const posts = useSelector(postsSelector);
+  // is new post uploading
+  const isNewPostUploading =  useSelector(isNewPostUploadingSelector)
   // is  post deleting
   const isPostDeleting = useSelector(isPostDeletingSelector)
 
@@ -146,7 +152,7 @@ const Home = () => {
                           };
                         });
                       }}
-                      className="absolute right-1.5 top-1.5 z-0 text-xl text-green-500"
+                      className="absolute right-1.5 top-1.5 z-0 text-xl text-green-600"
                     >
                       <RiMore2Fill />
                     </button>
@@ -162,7 +168,7 @@ const Home = () => {
                     >
                       {postMore?.options?.map((postMoreItem) => {
                         return (
-                          <>
+                          <section key={postMoreItem?.text}>
                             {(postMoreItem?.text === "delete" ||
                               postMoreItem?.text === "edit") &&
                             user?._id === postItem?.userId ? (
@@ -179,7 +185,7 @@ const Home = () => {
                                 }
                               }}>
                                 {/* icon */}
-                                <postMoreItem.icon className="text-green-500" />
+                                <postMoreItem.icon className="text-green-600" />
                                 {/* text */}
                                 <span className="text-sm text-green-700">
                                   {postMoreItem?.text}
@@ -192,14 +198,14 @@ const Home = () => {
                                 e.stopPropagation()
                               }}>
                                 {/* icon */}
-                                <postMoreItem.icon className="text-green-500" />
+                                <postMoreItem.icon className="text-green-600" />
                                 {/* text */}
                                 <span className="text-sm text-green-700">
                                   {postMoreItem?.text}
                                 </span>
                               </div>
                             ) : null}
-                          </>
+                          </section>
                         );
                       })}
                     </div>
@@ -209,7 +215,7 @@ const Home = () => {
                     <p>{postItem?.text}</p>
                   </div>
                   {/* control */}
-                  <div className="flex items-center gap-x-3 border-bv border-green-500 py-1.5">
+                  <div className="flex items-center gap-x-3 border-bv border-green-600 py-1.5">
                     {/* author */}
                     <div className="flex items-center gap-x-1">
                       {/* profile */}
@@ -224,18 +230,18 @@ const Home = () => {
                     {/* actions*/}
                     <div className="flex items-center gap-x-3">
                       {/* like */}
-                      <button className="text-green-500 flex items-center">
+                      <button className="text-green-600 flex items-center">
                         <span className="font-medium mr-1 text-xs mt-1.5">
                           {12}
                         </span>
                         {true ? <FaThumbsUp /> : <FaRegThumbsUp />}
                       </button>
                       {/* favorite */}
-                      <button className="text-green-500 flex items-center text-lg mt-1">
+                      <button className="text-green-600 flex items-center text-lg mt-1">
                         {true ? <MdFavorite /> : <MdFavoriteBorder />}
                       </button>
                       {/* comments */}
-                      <button className="text-green-500 flex items-center text-lg mt-1">
+                      <button className="text-green-600 flex items-center text-lg mt-1">
                         <span className="font-medium mr-1 text-xs">3</span>
                         {true ? (
                           <MdModeComment />
@@ -249,7 +255,7 @@ const Home = () => {
                     </div>
                     {/* date */}
                     <div>
-                      <span className="text-xs text-green-500">
+                      <span className="text-xs text-green-600">
                         {formatDistanceToNow(new Date(postItem?.createdAt), {
                           addSuffix: true,
                         })}
@@ -277,11 +283,11 @@ const Home = () => {
                 id="post-file-picker"
               />
               <label htmlFor="post-file-picker">
-                <MdAttachFile className="text-2xl rotate-[24deg] cursor-pointer text-green-500" />
+                <MdAttachFile className="text-2xl rotate-[24deg] cursor-pointer text-green-600" />
               </label>
             </div>
             {/* text in */}
-            <div className="flex-grow py-0.5 px-1.5 border border-green-500 rounded-sm">
+            <div className="flex-grow py-0.5 px-1.5 border border-green-600 rounded-sm">
               <textarea
                 className="focus:outline-none focus:ring-0 border-none p-0 w-full h-[17px] max-h-[72vh] resize-none bg-transparent m-0 text-sm"
                 name=""
@@ -298,12 +304,19 @@ const Home = () => {
             </div>
             {/* send button */}
             <div className="self-end">
-              <GrSend
-                className="text-green-500 text-2xl cursor-pointer"
-                onClick={() => {
-                  formSubmitHandler();
-                }}
-              />
+              {
+                isNewPostUploading
+                ?
+                <div className="w-[28px] aspect-square rounded-full border-4 border-green-600 border-r-transparent animate-spin"></div>
+                :
+                <GrSend
+                  className="text-green-600 text-2xl cursor-pointer"
+                  onClick={() => {
+                    formSubmitHandler();
+                  }}
+                />
+
+              }
             </div>
           </div>
         </>
@@ -317,8 +330,8 @@ const Home = () => {
         {
           isPostDeleting 
           ?
-          <div>
-            <p>Post Deleting...</p>
+          <div className="p-10">
+            <Loading mainText={'Deleting post...'} />
           </div>
           :
           <>
