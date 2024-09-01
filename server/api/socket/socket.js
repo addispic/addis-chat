@@ -23,6 +23,17 @@ io.on('connection',socket=>{
     io.emit("emitNewUser",data)
   })
 
+  // profile
+  // new profile
+  socket.on('newProfile',newProfile => {
+    io.emit('newProfileEvent',newProfile)
+  })
+
+  // delete profile
+  socket.on('deleteProfile',_id => {
+    io.emit('deleteProfileEvent',_id)
+  })
+
   // post
   // add new post
   socket.on('addNewPost',data=>{

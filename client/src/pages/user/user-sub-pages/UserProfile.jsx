@@ -18,6 +18,7 @@ const UserProfile = ({userId}) => {
   // profiles
   const profiles = useSelector(profilesSelectors)
   let userProfile = profiles?.filter(profile => profile?.userId === userId)[0]
+  
   return (
     <>
       {userProfile ? (
