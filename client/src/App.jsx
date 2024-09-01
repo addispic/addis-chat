@@ -25,6 +25,8 @@ import PagesNotFound from "./pages/PagesNotFound";
 // slices
 // user
 import { getAllUsers, addNewUser, authChecker } from "./features/users/users.slice";
+// profiles
+import {getAllProfiles} from './features/profile/profile.slice';
 // posts
 import {getAllPosts,addNewPostEvent, deletePostEvent} from './features/posts/posts.slice'
 
@@ -47,6 +49,12 @@ const App = () => {
       }
     });
   }, []);
+
+  // profile
+  // get all profiles
+  useEffect(()=>{
+    dispatch(getAllProfiles())
+  },[])
 
   // get all posts
   useEffect(()=>{

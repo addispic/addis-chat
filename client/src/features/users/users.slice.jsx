@@ -19,7 +19,6 @@ const initialState = {
 
 // login
 export const login = createAsyncThunk("user/login", async (data) => {
-  console.log("Hello World");
   try {
     const response = await axios.post("/api/user/login", data);
     return response.data;
@@ -157,7 +156,6 @@ const usersSlice = createSlice({
       // auth checker
       // fullfilled
       .addCase(authChecker.fulfilled, (state,action)=>{
-        console.log(action.payload?.error)
         if(action.payload?.error === "unauthorized"){
           state.user = null 
           localStorage.removeItem('user')

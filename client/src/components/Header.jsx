@@ -57,7 +57,7 @@ const Header = () => {
               }}>
                 {/* profile */}
                 <div className="w-[26px] aspect-square rounded-full bg-white text-green-600 flex items-center justify-center overflow-hidden">
-                  <UserProfile />
+                  <UserProfile userId={user?._id}/>
                 </div>
                 {/* username */}
                 <div className="text-sm">
@@ -127,14 +127,9 @@ const Header = () => {
                   </div>
                 ) : (
                   <button
-                    id="bbb"
                     className="px-3 py-0.5 rounded-sm bg-white text-green-500 text-sm transition-colors ease-in-out duration-150 hover:bg-gray-50"
                     onClick={() => {
                       dispatch(logout());
-                      console.log(
-                        window.getComputedStyle(document.getElementById("bbb"))
-                          .width
-                      );
                     }}
                   >
                     Logout

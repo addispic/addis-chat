@@ -232,7 +232,7 @@ const Home = () => {
                     <div className="flex items-center gap-x-1">
                       {/* profile */}
                       <div className="w-[24px] bg-green-600 text-white flex items-center justify-center aspect-square rounded-full overflow-hidden">
-                        <UserProfile />
+                        <UserProfile userId={postItem?.userId}/>
                       </div>
                       {/* username */}
                       <div className="text-sm text-gray-700">
