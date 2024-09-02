@@ -13,6 +13,7 @@ const initialState = {
     isProfilesLoading: false,
     isProfileUploading: false,
     isProfileDeleting: false,
+    profileIndexIndicator: 0,
 }
 
 
@@ -58,6 +59,9 @@ const profileSlice = createSlice({
         // delete profile event
         deleteProfileEvent: (state,action) => {
             state.profiles = state.profiles?.filter(profile => profile?._id !== action.payload)
+        },
+        profileIndexIndicatorSetter: state => {
+            state.profileIndexIndicator = 0
         }
     },
     extraReducers: builder => {
@@ -89,6 +93,7 @@ const profileSlice = createSlice({
                 state.isProfileUploading = false 
                 if(action.payload?.newProfile){
                     SOCKET.emit('newProfile',action.payload?.newProfile)
+                    state.profileIndexIndicator = 1
                 }
             })
             // rejected
@@ -104,9 +109,9 @@ const profileSlice = createSlice({
             // fulfilled
             .addCase(deleteProfile.fulfilled, (state,action)=>{
                 state.isProfileDeleting = false 
-                console.log(action.payload)
                 if(action.payload?._id){
                     SOCKET.emit('deleteProfile',action.payload?._id)
+                    state.profileIndexIndicator = -1
                 }
             })
             // rejected
@@ -121,6 +126,7 @@ const profileSlice = createSlice({
 export const {
     newProfileEvent,
     deleteProfileEvent,
+    profileIndexIndicatorSetter,
 } = profileSlice.actions
 
 // selectors
@@ -130,6 +136,8 @@ export const profilesSelectors = state => state.profile.profiles
 export const isProfileUploadingSelector = state => state.profile.isProfileUploading
 // is profile deleting
 export const isProfileDeletingSelector = state => state.profile.isProfileDeleting
+// current profile index
+export const profileIndexIndicatorSelector = state => state.profile.profileIndexIndicator
 
 
 // default exports

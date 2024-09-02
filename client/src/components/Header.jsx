@@ -5,6 +5,8 @@ import { NavLink } from "react-router-dom";
 // icons
 // photo
 import { MdAddAPhoto } from "react-icons/md";
+// user
+import { PiUser } from "react-icons/pi";
 // delete
 import { RiDeleteBin5Fill } from "react-icons/ri";
 // settings
@@ -31,7 +33,9 @@ import {
   addNewProfile,
   isProfileUploadingSelector,
   deleteProfile,
-  isProfileDeletingSelector
+  isProfileDeletingSelector,
+  profileIndexIndicatorSetter,
+  profileIndexIndicatorSelector,
 } from "../features/profile/profile.slice";
 
 // components
@@ -56,7 +60,9 @@ const Header = () => {
   // is profile uploading
   const isProfileUploading = useSelector(isProfileUploadingSelector);
   // is profile deleting
-  const isProfileDeleting = useSelector(isProfileDeletingSelector)
+  const isProfileDeleting = useSelector(isProfileDeletingSelector);
+  // profile delete indicator
+  const profileIndexIndicator = useSelector(profileIndexIndicatorSelector);
 
   // local states
   const [isProfilePopup, setIsProfilePopup] = useState(false);
@@ -82,7 +88,7 @@ const Header = () => {
 
   // delete profile handler
   const deleteProfileHandler = (_id) => {
-    dispatch(deleteProfile(_id))
+    dispatch(deleteProfile(_id));
   };
 
   // profile selector handler
@@ -94,8 +100,23 @@ const Header = () => {
 
   // updating current index
   useEffect(() => {
-    setCurrentIndex(0);
-  }, [isProfileUploading, profiles]);
+    if (profileIndexIndicator === 1) {
+      setCurrentIndex(0);
+    }else if(profileIndexIndicator === -1){
+      if(userProfiles?.length > 1){
+        if(currentIndex === 0){
+          setCurrentIndex(0)
+        }else{
+
+          setCurrentIndex(currentIndex-1)
+        }
+      }else{
+        setCurrentIndex(0)
+
+      }
+    }
+    dispatch(profileIndexIndicatorSetter())
+  }, [isProfileUploading, profiles, profileIndexIndicator]);
 
   return (
     <header className="h-[7vh] bg-green-600 text-white w-full">
@@ -143,19 +164,15 @@ const Header = () => {
                   <div className="relative">
                     {/* profile */}
                     <div className="flex items-center justify-center relative">
-                      <div className="w-[120px] aspect-square rounded-md overflow-hidden">
+                      <div className="w-[120px] bg-green-600 text-white flex items-center justify-center text-7xl aspect-square rounded-md overflow-hidden">
                         {userProfiles?.length > 0 ? (
                           <img
                             className="w-full h-full object-center object-cover"
-                            src={`${BASE_URI}/${userProfiles[currentIndex].path}`}
+                            src={`${BASE_URI}/${userProfiles[currentIndex]?.path}`}
                             alt=""
                           />
                         ) : (
-                          <img
-                            className="w-full h-full object-center object-cover"
-                            src="https://c.pxhere.com/photos/c7/42/young_man_portrait_beard_young_man_male_handsome_young_man_handsome-1046502.jpg!d"
-                            alt=""
-                          />
+                          <PiUser />
                         )}
                       </div>
                     </div>
@@ -206,28 +223,22 @@ const Header = () => {
                     {/* delete profile */}
                     {userProfiles?.length > 0 && (
                       <div>
-                        {
-                          isProfileDeleting
-                          ?
-                        <div
-                          className="w-[20px] aspect-square text-xs flex items-center justify-center rounded-full overflow-hidden bg-red-500 text-white absolute top-0 right-0"
-                          
-                        >
-                          <div className="w-[12px] aspect-square rounded-full border-2 border-white border-r-transparent animate-spin"></div>
-                        </div>
-                          :
-                        <div
-                          className="w-[20px] aspect-square text-xs flex items-center justify-center rounded-full overflow-hidden bg-red-500 cursor-pointer text-white absolute top-0 right-0"
-                          onClick={() => {
-                            deleteProfileHandler(
-                              userProfiles[currentIndex]._id
-                            );
-                          }}
-                        >
-                          <RiDeleteBin5Fill />
-                        </div>
-
-                        }
+                        {isProfileDeleting ? (
+                          <div className="w-[20px] aspect-square text-xs flex items-center justify-center rounded-full overflow-hidden bg-red-500 text-white absolute top-0 right-0">
+                            <div className="w-[12px] aspect-square rounded-full border-2 border-white border-r-transparent animate-spin"></div>
+                          </div>
+                        ) : (
+                          <div
+                            className="w-[20px] aspect-square text-xs flex items-center justify-center rounded-full overflow-hidden bg-red-500 cursor-pointer text-white absolute top-0 right-0"
+                            onClick={() => {
+                              deleteProfileHandler(
+                                userProfiles[currentIndex]._id
+                              );
+                            }}
+                          >
+                            <RiDeleteBin5Fill />
+                          </div>
+                        )}
                       </div>
                     )}
                     {/* username */}
