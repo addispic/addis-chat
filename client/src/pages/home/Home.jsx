@@ -1,6 +1,7 @@
-import React, { useState,useEffect } from "react";
+import React, { useState,useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { formatDistanceToNow } from "date-fns";
+import {filesize} from "filesize";
 
 // icons
 // file
@@ -26,6 +27,8 @@ import { CiShare2 } from "react-icons/ci";
 import { RiDeleteBin6Line } from "react-icons/ri";
 // warning
 import { IoIosWarning } from "react-icons/io";
+// remove
+import { IoMdClose } from "react-icons/io";
 
 
 // components
@@ -82,6 +85,10 @@ const Home = () => {
   });
   // delete post
   const [isDeletePost,setIsDeletePost] = useState(null)
+  // files
+  const [files,setFiles] = useState([])
+  // is deagging
+  const [isFileDragging,setIsFileDragging] = useState(false)
 
   // dispatch
   const dispatch = useDispatch();
@@ -96,6 +103,18 @@ const Home = () => {
       textarea.style.height = "17px";
     }
   };
+
+  // adjust textarea height
+  const adjustFilesDescriptionTextAreaHeight = (e) => {
+    let textarea = document.getElementById("files-description");
+    textarea.style.height = "24px";
+    let scHeight = e.target.scrollHeight;
+    textarea.style.height = `${scHeight}px`;
+    if (!e.target.value) {
+      textarea.style.height = "24px";
+    }
+  };
+
 
   // form submit handler
   const formSubmitHandler = () => {
@@ -112,10 +131,40 @@ const Home = () => {
     setIsDeletePost(null)
   },[posts])
 
-  
+  // files input change handler
+  const filesInputChangeHandler = e => {
+    setFiles([...e.target.files])
+  }
+
+  // remove file
+  const removeFile = index => {
+    setFiles(files?.filter((fileItem,i)=> i !== index))
+  }
+
+  // on drag over handler
+  const onDragOverHandler = e => {
+    e.preventDefault()
+    setIsFileDragging(true)
+    e.dataTransfer.dropEffect = "copy"
+
+  }
+
+  // on drag leave handler
+  const onDragLeavHandler = e => {
+    e.preventDefault()
+    setIsFileDragging(true)
+  }
+
+  // on drag drop handler
+  const onDragDropHandler = e => {
+    e.preventDefault()
+    setIsFileDragging(false)
+    setFiles([...e.dataTransfer.files])
+  }
+
 
   return (
-    <div className="h-[93vh] flex flex-col">
+    <div className="h-[93vh] flex flex-col" onDragOver={onDragOverHandler} onDragLeave={onDragLeavHandler} onDrop={onDragDropHandler}>
       {/* post content */}
       <div
         className={`flex-grow overflow-y-auto px-[3%] pt-[1vh] ${
@@ -289,8 +338,11 @@ const Home = () => {
               <input
                 type="file"
                 accept="image/*"
+                name="files"
                 hidden
+                multiple
                 id="post-file-picker"
+                onChange={filesInputChangeHandler}
               />
               <label htmlFor="post-file-picker">
                 <MdAttachFile className="text-2xl rotate-[24deg] cursor-pointer text-green-600" />
@@ -374,6 +426,86 @@ const Home = () => {
           </div>
           </>
         }
+        </div>
+      </div>
+      {/* add files pop up */}
+      <div className={`fixed left-0 top-0 w-screen h-screen bg-black/35 z-50 ${files?.length > 0 ? 'scale-100' : 'scale-0'}`}>
+        {/* confirm screen */}
+        <div className="absolute left-[30%] top-1/2 -translate-y-1/2 bg-white rounded-sm p-5">
+        {
+          !true 
+          ?
+          <div className="p-10">
+            <Loading mainText={'Deleting post...'} />
+          </div>
+          :
+          <>
+
+          {/* files list */}
+          {
+            files.map((fileItem,index)=>{
+              return (
+                <div className="mb-1 flex items-center justify-between">
+                  {/* icon & name-size */}
+                  <div className="flex items-center gap-x-3">
+                  {/* icons */}
+                  <div>icon</div>
+                  {/* file name && size */}
+                  <div>
+                    {/* name */}
+                    <div className="text-sm font-medium">
+                      <span>{fileItem?.name}</span>
+                    </div>
+                    {/* sizw */}
+                    <div className="text-xs text-green-600">
+                      <span>{filesize(fileItem?.size, {standard: "jedec"})}</span>
+                    </div>
+                  </div>
+                  </div>
+                  {/* delete */}
+                  <div>
+                    <div className="w-[20px] aspect-square rounded-full transition-colors ease-in-out duration-150  border border-transparent hover:border-red-600 flex items-center justify-center cursor-pointer text-red-600" onClick={()=>{
+                      removeFile(index)
+                    }}>
+                      <IoMdClose />
+                    </div>
+                  </div>
+                </div>
+              )
+            })
+          }
+          
+          
+          {/* description */}
+          <div className="mt-3 w-[200px] sm:w-[250px] md:w-[300px] border border-green-600 rounded-sm px-3 pb-0.5 pt-1 text-sm flex items-center justify-center">
+            <textarea onKeyUp={adjustFilesDescriptionTextAreaHeight} className="w-full resize-none focus:outline-none focus:ring-0 p-0 h-[24px] max-h-[300px]" name="text" id="files-description" placeholder="description"></textarea>
+          </div>
+          {/* buttons */}
+          <div className="flex items-center justify-between mt-3">
+            <button className="px-3 py-0.5 rounded-sm text-sm bg-gray-500 text-white transition-colors ease-in-out duration-150 hover:bg-gray-400" onClick={()=>{
+              setFiles([])
+            }}>cancel</button>
+
+            <button className="px-3 py-0.5 rounded-sm text-sm bg-green-600 text-white transition-colors ease-in-out duration-150 hover:bg-green-500" onClick={()=>{
+              // dispatch(deletePost(isDeletePost?._id))
+            }}>send</button>
+
+          </div>
+          </>
+        }
+        </div>
+      </div>
+      {/* is deagging pop up */}
+      <div className={`fixed left-0 top-0 w-screen h-screen bg-black/35 z-50 ${isFileDragging ? 'scale-100' : 'scale-0'}`}>
+        {/* confirm screen */}
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-sm p-5 py-10 w-250px sm:w-[300px] md:w-[350px]">
+          
+          {/* text */}
+          <div className="text-center text-xl font-bold">
+            <p className="text-gray-700">
+              Drop here . . . 
+            </p>
+          </div>
         </div>
       </div>
     </div>
