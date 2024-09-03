@@ -89,6 +89,8 @@ const Home = () => {
   const [files,setFiles] = useState([])
   // is deagging
   const [isFileDragging,setIsFileDragging] = useState(false)
+  // description
+  const [fileDescription,setFileDescription] = useState("")
 
   // dispatch
   const dispatch = useDispatch();
@@ -161,6 +163,22 @@ const Home = () => {
     setIsFileDragging(false)
     setFiles([...e.dataTransfer.files])
   }
+
+  // new post with file handler
+  const newPostWithFileHandler = () => {
+    const formData = new FormData()
+    for(let i = 0; i < files.length; i++){
+      formData.append('files',files[i])
+  }
+    formData.append('text',fileDescription)
+    dispatch(addNewPost(formData))
+  }
+
+  // use effect
+  useEffect(()=>{
+    setFiles([])
+    setFileDescription("")
+  },[posts])
 
 
   return (
@@ -337,7 +355,6 @@ const Home = () => {
             <div className="self-end">
               <input
                 type="file"
-                accept="image/*"
                 name="files"
                 hidden
                 multiple
@@ -367,7 +384,7 @@ const Home = () => {
             {/* send button */}
             <div className="self-end">
               {
-                isNewPostUploading
+                isNewPostUploading && files?.length === 0
                 ?
                 <div className="w-[28px] aspect-square rounded-full border-4 border-green-600 border-r-transparent animate-spin"></div>
                 :
@@ -433,10 +450,10 @@ const Home = () => {
         {/* confirm screen */}
         <div className="absolute left-[30%] top-1/2 -translate-y-1/2 bg-white rounded-sm p-5">
         {
-          !true 
+          isNewPostUploading
           ?
           <div className="p-10">
-            <Loading mainText={'Deleting post...'} />
+            <Loading mainText={'Uploading ...'} />
           </div>
           :
           <>
@@ -477,8 +494,10 @@ const Home = () => {
           
           
           {/* description */}
-          <div className="mt-3 w-[200px] sm:w-[250px] md:w-[300px] border border-green-600 rounded-sm px-3 pb-0.5 pt-1 text-sm flex items-center justify-center">
-            <textarea onKeyUp={adjustFilesDescriptionTextAreaHeight} className="w-full resize-none focus:outline-none focus:ring-0 p-0 h-[24px] max-h-[300px]" name="text" id="files-description" placeholder="description"></textarea>
+          <div className="mt-3 w-[200px] sm:w-[250px] md:w-full border border-green-600 rounded-sm px-3 pb-0.5 pt-1 text-sm flex items-center justify-center">
+            <textarea value={fileDescription} onChange={(e)=>{
+              setFileDescription(e.target.value)
+            }} onKeyUp={adjustFilesDescriptionTextAreaHeight} className="w-full resize-none focus:outline-none focus:ring-0 p-0 h-[24px] max-h-[300px]" name="text" id="files-description" placeholder="description"></textarea>
           </div>
           {/* buttons */}
           <div className="flex items-center justify-between mt-3">
@@ -487,7 +506,7 @@ const Home = () => {
             }}>cancel</button>
 
             <button className="px-3 py-0.5 rounded-sm text-sm bg-green-600 text-white transition-colors ease-in-out duration-150 hover:bg-green-500" onClick={()=>{
-              // dispatch(deletePost(isDeletePost?._id))
+              newPostWithFileHandler()
             }}>send</button>
 
           </div>

@@ -10,8 +10,10 @@ const postSchema = new mongoose.Schema({
     },
     text: {
         type: String,
-        required: [true,'text content required'],
     },
+    files: {
+        type: Array,
+    }
 
 },{timestamps: true});
 

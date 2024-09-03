@@ -4,6 +4,9 @@ const {Router} = require('express');
 // private route
 const {privateRoute} = require('../middlewares/auth.middleware');
 
+// files middleware
+const filesMiddleware = require('../middlewares/files.middleware')
+
 // controllers
 // post controllers
 const {
@@ -21,7 +24,7 @@ const router = Router();
 router.get('/get-all-posts',getAllPosts)
 
 // add new post
-router.post('/new-post',privateRoute,addNewPost)
+router.post('/new-post',privateRoute,filesMiddleware.array('files'),addNewPost)
 
 // update single post
 router.put('/update-post/:_id',privateRoute,updatePost)

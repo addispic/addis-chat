@@ -1,4 +1,4 @@
-
+const fs = require('fs')
 // models
 const Post = require('../models/post.schema');
 
@@ -16,8 +16,10 @@ const getAllPosts = async (req,res) => {
 const addNewPost = async (req,res) => {
     try{
         const {text} = req.body 
+        let files = []
+        req.files?.forEach((fileItem => files.push(fileItem.path)))
         const userId = req.user?._id 
-        const newPost = await Post.create({userId,text})
+        const newPost = await Post.create({userId,text,files})
         return res.status(200).json({newPost})
     }catch(err){
         console.log(err)
@@ -60,6 +62,13 @@ const deletePost = async(req,res) => {
         }
 
         await Post.findByIdAndDelete(postId);
+        if(post?.files?.length > 0){
+            post?.files?.forEach((filePath)=>{
+                if(fs.existsSync(filePath)){
+                    fs.unlinkSync(filePath)
+                }
+            })
+        }
         return res.status(200).json({message: 'post deleted successfully',_id: postId})
     } catch (err) {
         console.log(err)
