@@ -33,6 +33,8 @@ import { IoMdClose } from "react-icons/io";
 import { MdAudiotrack } from "react-icons/md";
 // video
 import { PiVideoFill } from "react-icons/pi";
+// file
+import { MdFileCopy } from "react-icons/md";
 
 // components
 // timer
@@ -190,11 +192,12 @@ const Home = () => {
 
   // file progile
   const fileProfile = (fileItem) => {
+    console.log(fileItem.type,"+++")
     let type = fileItem.type.split("/")[0];
     let fileExtension = fileItem.name.split(".").reverse()[0];
-    console.log(fileItem.type.split("/")[0]);
-    console.log(fileItem.name.split(".").reverse()[0]);
-    console.log(URL.createObjectURL(fileItem));
+    // console.log(fileItem.type.split("/")[0]);
+    // console.log(fileItem.name.split(".").reverse()[0]);
+    // console.log(URL.createObjectURL(fileItem));
     return (
       <div
         className={`w-[24px] aspect-square overflow-hidden rounded-full  text-white flex items-center justify-center text-xl ${
@@ -225,31 +228,37 @@ const Home = () => {
                   className="w-full h-full object-center object-cover"
                   alt=""
                 />
-              ) : fileExtension === "zip" ? (
+              ) : fileExtension === "zip" || fileExtension === "rar" ? (
                 <img
-                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Microsoft_Word_2013-2019_logo.svg/1200px-Microsoft_Word_2013-2019_logo.svg.png"
+                  src="https://vectorified.com/images/rar-icon-14.png"
                   className="w-full h-full object-center object-cover"
                   alt=""
                 />
               ) : fileExtension === "exe" ? (
                 <img
-                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Microsoft_Word_2013-2019_logo.svg/1200px-Microsoft_Word_2013-2019_logo.svg.png"
+                  src="https://cdn-icons-png.flaticon.com/512/10511/10511412.png"
                   className="w-full h-full object-center object-cover"
                   alt=""
                 />
               ) : fileExtension === "apk" ? (
                 <img
-                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Microsoft_Word_2013-2019_logo.svg/1200px-Microsoft_Word_2013-2019_logo.svg.png"
+                  src="https://cdn-icons-png.flaticon.com/512/10234/10234503.png"
                   className="w-full h-full object-center object-cover"
                   alt=""
                 />
               ): fileExtension === "ppt" ? (
                 <img
-                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Microsoft_Word_2013-2019_logo.svg/1200px-Microsoft_Word_2013-2019_logo.svg.png"
+                  src="https://cdn1.iconfinder.com/data/icons/application-file-formats/128/microsoft-powerpoint-512.png"
                   className="w-full h-full object-center object-cover"
                   alt=""
                 />
-              ):null}
+              ): fileExtension === "xls" ? (
+                <img
+                  src="http://getdrawings.com/free-icon/excel-document-icon-56.png"
+                  className="w-full h-full object-center object-cover"
+                  alt=""
+                />
+              ):<MdFileCopy className="text-lg" />}
             </>
           </>
         ) : null}
