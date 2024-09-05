@@ -181,6 +181,40 @@ const Home = () => {
   },[posts])
 
 
+  // file progile
+  const fileProfile = (fileItem) => {
+    let type = fileItem.type.split('/')[0]
+    let fileExtension = fileItem.name.split('.').reverse()[0]
+    console.log(fileItem.type.split('/')[0])
+    console.log(fileItem.name.split('.').reverse()[0])
+    console.log(URL.createObjectURL(fileItem))
+    return (
+      <div className="w-[24px] aspect-square overflow-hidden rounded-md">
+        {
+          type === "image"
+          ?
+          <img src={URL.createObjectURL(fileItem)} className="w-full h-full object-center object-cover" alt="" />
+          :
+          <>
+          {
+            fileExtension === "pdf"
+            ?
+            <img src="https://static.vecteezy.com/system/resources/previews/023/234/824/original/pdf-icon-red-and-white-color-for-free-png.png" alt="" />
+            :
+            fileExtension === "docx"
+            ?
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Microsoft_Word_2013-2019_logo.svg/1200px-Microsoft_Word_2013-2019_logo.svg.png" className="w-full h-full object-center object-cover" alt="" />
+            :
+            null
+
+          }
+          </>
+        }
+      </div>
+    )
+  }
+
+
   return (
     <div className="h-[93vh] flex flex-col" onDragOver={onDragOverHandler} onDragLeave={onDragLeavHandler} onDrop={onDragDropHandler}>
       {/* post content */}
@@ -466,7 +500,7 @@ const Home = () => {
                   {/* icon & name-size */}
                   <div className="flex items-center gap-x-3">
                   {/* icons */}
-                  <div>icon</div>
+                  {fileProfile(fileItem)}
                   {/* file name && size */}
                   <div>
                     {/* name */}
