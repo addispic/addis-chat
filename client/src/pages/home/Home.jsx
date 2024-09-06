@@ -40,6 +40,8 @@ import { MdFileCopy } from "react-icons/md";
 // timer
 // loader
 import Loading from "../../components/timer/Loading";
+// files
+import Files from "../../components/files/Files";
 // user profile
 import UserProfile from "../user/user-sub-pages/UserProfile";
 // user name
@@ -192,12 +194,13 @@ const Home = () => {
 
   // file progile
   const fileProfile = (fileItem) => {
-    console.log(fileItem.type,"+++")
+    // console.log(fileItem.type,"+++")
     let type = fileItem.type.split("/")[0];
     let fileExtension = fileItem.name.split(".").reverse()[0];
     // console.log(fileItem.type.split("/")[0]);
     // console.log(fileItem.name.split(".").reverse()[0]);
     // console.log(URL.createObjectURL(fileItem));
+
     return (
       <div
         className={`w-[24px] aspect-square overflow-hidden rounded-full  text-white flex items-center justify-center text-xl ${
@@ -266,6 +269,17 @@ const Home = () => {
     );
   };
 
+  // file name
+  const getFileName = fileName => {
+    if(fileName?.length > 32){
+      return fileName?.slice(0,32)+"..."
+    }else {
+      return fileName
+    }
+  }
+
+
+
   return (
     <div
       className="h-[93vh] flex flex-col"
@@ -291,7 +305,7 @@ const Home = () => {
               return (
                 <div
                   key={postItem?._id}
-                  className="mb-5 bg-white shadow-lg p-3 relative"
+                  className="mb-5 bg-white shadow-lg p-3 relative h-max overflow-hidden"
                   onClick={(e) => {
                     e.stopPropagation();
                     setPostMore((prev) => {
@@ -381,9 +395,20 @@ const Home = () => {
                       })}
                     </div>
                   )}
-                  {/* text */}
+                
+                  {/* file and text */}
                   <div className="text-sm ml-[3%] py-3">
+                    {/* files list */}
+                  {
+                    postItem?.files?.length > 0 && <Files files={postItem?.files}/>
+                  }
+                  {
+                    postItem?.text && 
+                  <div>
+                  {/* text */}
                     <p>{postItem?.text}</p>
+                  </div>
+                  }
                   </div>
                   {/* control */}
                   <div className="flex items-center gap-x-3 border-bv border-green-600 py-1.5">
@@ -551,7 +576,7 @@ const Home = () => {
         }`}
       >
         {/* confirm screen */}
-        <div className="absolute left-[30%] top-1/2 -translate-y-1/2 bg-white rounded-sm p-5">
+        <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 bg-white rounded-sm p-5">
           {isNewPostUploading ? (
             <div className="p-10">
               <Loading mainText={"Uploading ..."} />
@@ -570,7 +595,7 @@ const Home = () => {
                       <div>
                         {/* name */}
                         <div className="text-sm font-medium">
-                          <span>{fileItem?.name}</span>
+                          <span>{getFileName(fileItem?.name)}</span>
                         </div>
                         {/* sizw */}
                         <div className="text-xs text-green-600">
