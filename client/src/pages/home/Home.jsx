@@ -404,7 +404,7 @@ const Home = () => {
                   }
                   {
                     postItem?.text && 
-                  <div>
+                  <div className="mt-3">
                   {/* text */}
                     <p>{postItem?.text}</p>
                   </div>
@@ -523,7 +523,7 @@ const Home = () => {
         }`}
       >
         {/* confirm screen */}
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-sm p-5">
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-sm p-5 h-[150px] w-[272.797px]">
           {isPostDeleting ? (
             <div className="p-10">
               <Loading mainText={"Deleting post..."} />
@@ -576,7 +576,7 @@ const Home = () => {
         }`}
       >
         {/* confirm screen */}
-        <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 bg-white rounded-sm p-5">
+        <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 bg-white rounded-sm p-5 min-w-[250px] sm:min-w-[300px] md:min-w-[350px]">
           {isNewPostUploading ? (
             <div className="p-10">
               <Loading mainText={"Uploading ..."} />
@@ -621,7 +621,7 @@ const Home = () => {
               })}
 
               {/* description */}
-              <div className="mt-3 w-[200px] sm:w-[250px] md:w-full border border-green-600 rounded-sm px-3 pb-0.5 pt-1 text-sm flex items-center justify-center">
+              <div className="mt-3 w-[350px] sm:w-[400px] md:w-full border border-green-600 rounded-sm px-3 pb-0.5 pt-1 text-sm flex items-center justify-center">
                 <textarea
                   value={fileDescription}
                   onChange={(e) => {
@@ -658,7 +658,7 @@ const Home = () => {
           )}
         </div>
       </div>
-      {/* is deagging pop up */}
+      {/* is dragging pop up */}
       <div
         className={`fixed left-0 top-0 w-screen h-screen bg-black/35 z-50 ${
           isFileDragging ? "scale-100" : "scale-0"

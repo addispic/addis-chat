@@ -28,6 +28,10 @@ app.use(
 app.use("/api/user", require("./api/routes/user.routes"));
 // post
 app.use("/api/post", require("./api/routes/post.routes"));
+// post comments
+app.use("/api/post-comments", require("./api/routes/post.comments.routes"));
+// post likes
+app.use("/api/post-likes", require("./api/routes/post.likes.routes"));
 // profiles
 app.use("/api/profile", require("./api/routes/profile.routes"));
 
