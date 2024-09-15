@@ -190,14 +190,12 @@ const Home = () => {
     setFileDescription("");
   }, [posts]);
 
-  // file progile
+  // file profile
   const fileProfile = (fileItem) => {
     console.log(fileItem.type,"+++")
     let type = fileItem.type.split("/")[0];
     let fileExtension = fileItem.name.split(".").reverse()[0];
-    // console.log(fileItem.type.split("/")[0]);
-    // console.log(fileItem.name.split(".").reverse()[0]);
-    // console.log(URL.createObjectURL(fileItem));
+    
     return (
       <div
         className={`w-[24px] aspect-square overflow-hidden rounded-full  text-white flex items-center justify-center text-xl ${
